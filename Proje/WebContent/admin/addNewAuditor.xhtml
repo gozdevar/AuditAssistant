@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<style type="text/css">
+.ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
+	{
+	text-align: center;
+}
+
+.customPanelGrid .ui-panelgrid-content {
+	align-items: center;
+}
+</style>
+</h:head>
+<body>
+
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+
+	<h:form>
+		<p:panel
+			style="background: rgb(96,190,190);
+background: radial-gradient(circle, rgba(96,190,190,1) 0%, rgba(194,214,214,1) 100%);height:80px;"
+			position="fixed">
+			<div class="ui-g">
+				<div class="ui-g-12 ui-md-6">
+					<h1 style="line-height: 5px;">Audit Assistant</h1>
+
+				</div>
+				<div class="ui-g-12 ui-md-6">
+
+					<p:commandButton style="float:right;top:25%;"
+						action="#{loginBean.logout()}" value="Logout" />
+				</div>
+			</div>
+		</p:panel>
+		<p:menubar>
+			<p:submenu label="Certification">
+				<p:menuitem value="My Certifications"
+					url="http://localhost:8080/Proje/myCertification.xhtml" />
+				<p:menuitem value="Add New Certification"
+					url="http://localhost:8080/Proje/pickCertToAdd2.xhtml" />
+				<p:menuitem value="Add New Cpe Activity"
+					url="http://localhost:8080/Proje/addNewCpeActivity.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="Finding">
+				<p:menuitem value="Search Findings"
+					url="http://localhost:8080/Proje/searchFinding.xhtml" />
+				<p:menuitem value="Auditor's Findings"
+					url="http://localhost:8080/Proje/auditors.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="Admin" rendered="#{loginBean.admin}">
+				<p:menuitem value="Add New Auditor"
+					url="http://localhost:8080/Proje/admin/addNewAuditor.xhtml" />
+				<p:menuitem value="Get CPE Status"
+					url="http://localhost:8080/Proje/admin/cpeReport.xhtml" />
+				<p:menuitem value="Add New Certification Type"
+					url="http://localhost:8080/Proje/admin/addNewCertType.xhtml" />
+			</p:submenu>
+
+
+		</p:menubar>
+		<p:panel>
+
+
+			<h:panelGrid columns="2" cellpadding="4">
+
+				<p:outputLabel for="empNo" value="Employee Number:" />
+				<p:inputText id="empNo"
+					value="#{addAuditorBean.newAuditor.employeeNumber}" />
+
+				<p:outputLabel for="name" value="Name:" />
+				<p:inputText id="name" value="#{addAuditorBean.newAuditor.name}" />
+
+				<p:outputLabel for="surname" value="Surname:" />
+				<p:inputText id="surname"
+					value="#{addAuditorBean.newAuditor.surname}" />
+
+
+				<p:outputLabel for="dateA" value="An auditor since:" />
+				<p:datePicker id="dateA" showIcon="true" yearNavigator="true"
+					style="width:auto"
+					value="#{addAuditorBean.newAuditor.auditExpStart}" />
+
+				<p:outputLabel for="password" value="Password:" />
+				<p:password id="password" value="#{addAuditorBean.auditorsPassword}" />
+
+				<p:outputLabel for="role" value="Role:" />
+				<p:inputText id="role" value="#{addAuditorBean.newAuditor.role}" />
+
+				<p:outputLabel for="E-mail" value="E-mail" />
+				<p:inputText id="E-mail" value="#{addAuditorBean.newAuditor.email}" />
+
+				<p:outputLabel for="resume" value="Resume" />
+				<p:inputText id="resume" value="#{addAuditorBean.newAuditor.resume}" />
+
+
+
+				<p:commandButton value="Save" ajax="false"
+					action="${addAuditorBean.saveAuditor()}" icon="pi pi-save" />
+			</h:panelGrid>
+
+		</p:panel>
+
+
+
+	</h:form>
+
+
+</body>
+</html>

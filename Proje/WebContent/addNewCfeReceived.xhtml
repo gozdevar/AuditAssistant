@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+
+	<h:form>
+		<p:panel
+			style="background: rgb(96,190,190);
+background: radial-gradient(circle, rgba(96,190,190,1) 0%, rgba(194,214,214,1) 100%);height:80px;"
+			position="fixed">
+			<div class="ui-g">
+				<div class="ui-g-12 ui-md-6">
+					<h1 style="line-height: 5px;">Audit Assistant</h1>
+
+				</div>
+				<div class="ui-g-12 ui-md-6">
+
+					<p:commandButton style="float:right;top:25%;"
+						action="#{loginBean.logout()}" value="Logout" />
+				</div>
+			</div>
+		</p:panel>
+
+
+		<p:menubar>
+			<p:submenu label="Certification">
+				<p:menuitem value="My Certifications"
+					url="http://localhost:8080/Proje/myCertification.xhtml" />
+				<p:menuitem value="Add New Certification"
+					url="http://localhost:8080/Proje/pickCertToAdd2.xhtml" />
+				<p:menuitem value="Add New Cpe Activity"
+					url="http://localhost:8080/Proje/addNewCpeActivity.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="Finding">
+				<p:menuitem value="Search Findings"
+					url="http://localhost:8080/Proje/searchFinding.xhtml" />
+				<p:menuitem value="Auditor's Findings"
+					url="http://localhost:8080/Proje/auditors.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="Admin" rendered="#{loginBean.admin}">
+				<p:menuitem value="Add New Auditor"
+					url="http://localhost:8080/Proje/admin/addNewAuditor.xhtml" />
+				<p:menuitem value="Get CPE Status"
+					url="http://localhost:8080/Proje/admin/cpeReport.xhtml" />
+				<p:menuitem value="Add New Certification Type"
+					url="http://localhost:8080/Proje/admin/addNewCertType.xhtml" />
+			</p:submenu>
+
+
+		</p:menubar>
+
+		<p:panel>
+
+			<div class="ui-g">
+
+				<div class="ui-g-12 ui-md-2">
+					<p:selectOneListbox id="advanced" style="width: 80%;text-align:center;"
+						value="#{menuBean.certificationID}" filter="true"
+						filterMatchMode="contains">
+
+						<f:selectItems value="#{menuBean.certificationsToBeAdded}"
+							var="adt" itemLabel="#{adt.certName}" itemValue="#{adt.id}" />
+
+					</p:selectOneListbox>
+
+					<p:commandButton value="Submit" ajax="false" update="display"
+						action="${menuBean.addCertPage()}" icon="pi pi-check" />
+
+				</div>
+
+				<div class="ui-g-12 ui-md-1"></div>
+
+
+				<div class="ui-g-12 ui-md-4 ui-g-nopad">
+					<h:panelGrid columns="2" cellpadding="4">
+
+						<p:outputLabel for="dateCertified" value="Certified Date:" />
+						<p:datePicker id="dateCertified" yearNavigator="true"
+							showIcon="true" style="width:auto"
+							maxdate="#{addCfeReceivedBean.maxDate}"
+							value="#{addCfeReceivedBean.newCertReceived.certReceivedAt}" />
+
+
+
+						<p:outputLabel for="dateAnniversary" value="Anniversary Date:" />
+						<p:datePicker id="dateAnniversary" yearNavigator="true"
+							maxdate="#{addCfeReceivedBean.maxDate}"
+							value="#{addCfeReceivedBean.newCertReceived.CFEAnniversary}"
+							showIcon="true" style="width:auto" />
+
+
+						<p:commandButton value="Save" ajax="false"
+							action="${addCfeReceivedBean.saveCertReceived()}"
+							icon="pi pi-save" />
+					</h:panelGrid>
+				</div>
+			</div>
+		</p:panel>
+
+
+
+
+
+	</h:form>
+
+
+</body>
+</html>

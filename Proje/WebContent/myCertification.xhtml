@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:outputStylesheet name="primeicons/primeicons.css"
+	library="primefaces" />
+
+
+<body>
+
+
+	<h:form id="form">
+		<p:panel
+			style="background: rgb(96,190,190);
+background: radial-gradient(circle, rgba(96,190,190,1) 0%, rgba(194,214,214,1) 100%);height:80px;"
+			position="fixed">
+			<div class="ui-g">
+				<div class="ui-g-12 ui-md-6">
+					<h1 style="line-height: 5px;">Audit Assistant</h1>
+
+				</div>
+				<div class="ui-g-12 ui-md-6">
+
+					<p:commandButton style="float:right;top:25%;"
+						action="#{loginBean.logout()}" value="Logout" />
+				</div>
+			</div>
+		</p:panel>
+
+		<p:menubar>
+			<p:submenu label="Certification">
+				<p:menuitem value="My Certifications"
+					url="http://localhost:8080/Proje/myCertification.xhtml" />
+				<p:menuitem value="Add New Certification"
+					url="http://localhost:8080/Proje/pickCertToAdd2.xhtml" />
+				<p:menuitem value="Add New Cpe Activity"
+					url="http://localhost:8080/Proje/addNewCpeActivity.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="Finding">
+				<p:menuitem value="Search Findings"
+					url="http://localhost:8080/Proje/searchFinding.xhtml" />
+				<p:menuitem value="Auditor's Findings"
+					url="http://localhost:8080/Proje/auditors.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="Admin" rendered="#{loginBean.admin}">
+				<p:menuitem value="Add New Auditor"
+					url="http://localhost:8080/Proje/admin/addNewAuditor.xhtml" />
+				<p:menuitem value="Get CPE Status"
+					url="http://localhost:8080/Proje/admin/cpeReport.xhtml" />
+				<p:menuitem value="Add New Certification Type"
+					url="http://localhost:8080/Proje/admin/addNewCertType.xhtml" />
+			</p:submenu>
+
+
+		</p:menubar>
+
+		<p:dataGrid var="cert" value="#{certReceivedBean.auditorsCerts}"
+			columns="3" layout="grid" rows="12" id="cars"
+			rowsPerPageTemplate="6,12,16">
+
+			<f:facet name="header">
+            My Certifications
+        </f:facet>
+
+			<p:panel header="#{cert.certification.certName}"
+				style="text-align:center; height:320px">
+				<h:panelGrid columns="2" style="width:100%">
+					<f:facet name="header">
+						<p:graphicImage style="height:150px;"
+							value="/images/#{cert.certification.certName}.png" />
+					</f:facet>
+
+					<h:outputText value="Date Certified:" />
+					<h:outputText value="#{cert.formattedDate}" />
+
+					<h:outputText value="Completed Cpe:" />
+					<h:outputText value="#{cert.completedCpeAmount}" />
+
+
+					<h:outputText value="Remaining Cpe:" />
+					<h:outputText value="#{cert.remainingCpe}" />
+					
+					<h:outputText value="Reporting Due:" />
+					<h:outputText value="#{cert.nextReportingDate}" />
+
+
+
+					<f:facet name="footer">
+						<p:commandLink update=":form:certDetail"
+							oncomplete="PF('certDialog').show()" title="View Detail">
+							<h:outputText styleClass="pi pi-search" style="margin:0 auto;" />
+							<f:setPropertyActionListener value="#{cert}"
+								target="#{certReceivedBean.selectedCert}" />
+						</p:commandLink>
+					</f:facet>
+				</h:panelGrid>
+
+
+
+			</p:panel>
+
+		</p:dataGrid>
+
+		<p:dialog header="CPE Info" style="text-align:center;"
+			widgetVar="certDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false">
+			<p:outputPanel id="certDetail" style="text-align:center;">
+				<p:dataTable var="cer"
+					value="#{certReceivedBean.selectedCert.completedCpeActivities}">
+					<p:column headerText="Activity Name">
+						<h:outputText value="#{cer.cpeName}" />
+					</p:column>
+
+					<p:column headerText="Activity Date">
+						<h:outputText value="#{cer.dateCpeTaken}" />
+					</p:column>
+
+					<p:column headerText="CPE Amount">
+						<h:outputText value="#{cer.cpeAmount}" />
+					</p:column>
+
+
+				</p:dataTable>
+
+			</p:outputPanel>
+		</p:dialog>
+
+
+
+
+
+	</h:form>
+
+
+
+
+
+
+</body>
+</html>

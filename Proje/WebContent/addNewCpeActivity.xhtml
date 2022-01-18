@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+	<h:form>
+		<p:panel
+			style="background: rgb(96,190,190);
+background: radial-gradient(circle, rgba(96,190,190,1) 0%, rgba(194,214,214,1) 100%);height:80px;"
+			position="fixed">
+			<div class="ui-g">
+				<div class="ui-g-12 ui-md-6">
+					<h1 style="line-height: 5px;">Audit Assistant</h1>
+
+				</div>
+				<div class="ui-g-12 ui-md-6">
+
+					<p:commandButton style="float:right;top:25%;"
+						action="#{loginBean.logout()}" value="Logout" />
+				</div>
+			</div>
+		</p:panel>
+
+		<p:menubar>
+			<p:submenu label="Certification">
+				<p:menuitem value="My Certifications"
+					url="http://localhost:8080/Proje/myCertification.xhtml" />
+				<p:menuitem value="Add New Certification"
+					url="http://localhost:8080/Proje/pickCertToAdd2.xhtml" />
+				<p:menuitem value="Add New Cpe Activity"
+					url="http://localhost:8080/Proje/addNewCpeActivity.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="Finding">
+				<p:menuitem value="Search Findings"
+					url="http://localhost:8080/Proje/searchFinding.xhtml" />
+				<p:menuitem value="Auditor's Findings"
+					url="http://localhost:8080/Proje/auditors.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="Admin" rendered="#{loginBean.admin}">
+				<p:menuitem value="Add New Auditor"
+					url="http://localhost:8080/Proje/admin/addNewAuditor.xhtml" />
+				<p:menuitem value="Get CPE Status"
+					url="http://localhost:8080/Proje/admin/cpeReport.xhtml" />
+				<p:menuitem value="Add New Certification Type"
+					url="http://localhost:8080/Proje/admin/addNewCertType.xhtml" />
+			</p:submenu>
+
+
+		</p:menubar>
+		<p:panel>
+
+
+			<h:panelGrid columns="2" cellpadding="4">
+
+
+				<p:outputLabel for="name" value="Activity Name" />
+				<p:inputText id="name" value="#{addCpeActivityBean.newCpe.cpeName}" />
+
+				<p:outputLabel for="amount" value="CPE Amount" />
+				<p:inputText id="amount"
+					value="#{addCpeActivityBean.newCpe.cpeAmount}" />
+
+				<p:outputLabel for="dateA" value="Activity Date" />
+				<p:datePicker id="dateA" showIcon="true" yearNavigator="true"
+					maxdate="#{addCpeActivityBean.maxDate}" style="width:auto"
+					value="#{addCpeActivityBean.newCpe.dateCpeTaken}" />
+
+				<p:outputLabel for="grid" value="Related Certification(s)" />
+				<p:selectManyCheckbox id="grid"
+					value="#{addCpeActivityBean.certIDs}" layout="grid" columns="3">
+					<f:selectItems
+						value="#{addCpeActivityBean.certificationsOfAuditor}" var="crt"
+						itemLabel="#{crt.certification.certName}"
+						itemValue="#{crt.certification.id}" />
+				</p:selectManyCheckbox>
+
+
+				<p:commandButton value="Submit" ajax="false"
+					action="${addCpeActivityBean.saveCpeActivity()}" icon="pi pi-save" />
+			</h:panelGrid>
+
+		</p:panel>
+
+
+
+
+
+	</h:form>
+
+</body>
+</html>
